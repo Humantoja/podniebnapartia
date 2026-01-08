@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podniebna Partia | Oficjalny Serwis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #002347;
+            --navy-light: #003366;
+            --accent: #0056b3;
+            --text-dark: #1a1a1a;
+            --text-gray: #6c757d;
+            --white: #ffffff;
+            --border: #e9ecef;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--white);
+            color: var(--text-dark);
+        }
+
+        /* --- NAWIGACJA --- */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            display: block;
+        }
+
+        .nav-links a {
+            color: var(--navy);
+            text-decoration: none;
+            margin-left: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- SLIDER SEKRETERIATU / ZARZĄDU --- */
+        .hero-slider {
+            margin-top: 80px; /* Miejsce na nav */
+            height: 600px;
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 300%;
+        }
+
+        .slide {
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            box-sizing: border-box;
+        }
+
+        .slide-container {
+            display: flex;
+            align-items: center;
+            max-width: 1100px;
+            width: 100%;
+            gap: 80px;
+        }
+
+        .slide-image {
+            flex: 0 0 400px;
+            height: 400px;
+            background: #eee;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 20px 20px 0px var(--navy);
+        }
+
+        .slide-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-info {
+            flex: 1;
+        }
+
+        .slide-info h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--navy);
+        }
+
+        .slide-info .role {
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .slide-info p {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* Kontrolki Slidera */
+        .controls {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .arrow {
+            width: 50px;
+            height: 50px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .arrow:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        .arrow.disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #cbd5e0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--navy);
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        /* --- SEKCJA O PARTII --- */
+        .section-padding {
+            padding: 100px 10%;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* --- MINISTROWIE --- */
+        .ministers-section {
+            background: #fdfdfd;
+            border-top: 1px solid var(--border);
+        }
+
+        .ministers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .minister-card {
+            text-align: left;
+        }
+
+        .minister-card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            filter: grayscale(20%);
+            transition: 0.3s;
+        }
+
+        .minister-card:hover img {
+            filter: grayscale(0%);
+        }
+
+        .m-name {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .m-role {
+            color: var(--text-gray);
+            font-size: 0.75rem;
+            margin-top: 3px;
+            display: block;
+        }
+
+        /* --- STOPKA --- */
+        footer {
+            padding: 60px 10%;
+            background: var(--navy);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-logo" style="display: flex; align-items: center; gap: 20px;">
+        <img src="https://media.discordapp.net/attachments/1458842897259433995/1458846606857338985/logopartiisamo.png?ex=69612047&is=695fcec7&hm=ec839c81e3fa1415126b189679b9ef6fc1a91f9dbff61ae832e7ba2b4255873d&=&format=webp&quality=lossless" 
+             alt="Logo" style="height: 60px; width: auto;">
+        <span class="logo-text" style="font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 2.2rem; color: #002347; text-transform: uppercase; white-space: nowrap;">
+            PODNIEBNA PARTIA
+        </span>
+    </div>
+    <div class="nav-links">
+        <a href="#o-partii">O partii</a>
+        <a href="#ministrowie">Ministrowie</a>
+        <a href="#kontakt">Kontakt</a>
+    </div>
+</nav>
+
+    <header class="hero-slider">
+        <div class="slider-wrapper" id="slider">
+            <div class="slide">
+                <div class="slide-container">
+                    <div class="slide-image">
+                        <img src="https://media.discordapp.net/attachments/1458842897259433995/1458850622228004997/krzysztofhustlerowski.png?ex=69612404&is=695fd284&hm=97ace94b19732a9fd2ad54d991b5dd38f5eb129799c8d0dfaf07b719f1020f58&=&format=webp&quality=lossless&width=350&height=350" alt="Krzysztof">
+                    </div>
+                    <div class="slide-info">
+                        <h2>Krzysztof Hustlerowski</h2>
+                        <span class="role">Prezes Partii</span>
+                        <p>Lider, polityczny geniusz który wierzy w silną gospodarkę i wolność jednostki. Pod jego przewodnictwem Podniebna Partia staje się główną siłą nowoczesnej prawicy, stawiając na konkretne rozwiązania zamiast pustych obietnic.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-container">
+                    <div class="slide-image">
+                        <img src="https://media.discordapp.net/attachments/1458842897259433995/1458852604829503519/andrzejacartowski.png?ex=696125dd&is=695fd45d&hm=dd1f5cefb1eb9633c7cbd39f1924b82dd6d56c09bd0dc1d620bb7755383769bc&=&format=webp&quality=lossless&width=774&height=774" alt="Andrzej">
+                    </div>
+                    <div class="slide-info">
+                        <h2>Andrzej Acartowski</h2>
+                        <span class="role">Wiceprezes Partii</span>
+                        <p>Doświadczony strateg odpowiedzialny za struktury partii. Jego wizja opiera się na stabilności i bezpieczeństwie narodowym jako fundamencie rozwoju.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-container">
+                    <div class="slide-image">
+                        <img src="https://media.discordapp.net/attachments/1458842897259433995/1458853734624006185/tomaszperla.png?ex=696126ea&is=695fd56a&hm=3f86d0d86c7d4d6fe44c1382059df26709a57c0e4bb1057cded5dcbd512ddc80&=&format=webp&quality=lossless" alt="Tomasz">
+                    </div>
+                    <div class="slide-info">
+                        <h2>Tomasz Perła</h2>
+                        <span class="role">Wiceprezes Partii</span>
+                        <p>Głos wolnego rynku i przedsiębiorców. Walczy o uproszczenie przepisów i stworzenie przyjaznego klimatu dla polskich firm.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="arrow disabled" id="prevBtn" onclick="moveSlide(-1)">&#10229;</div>
+            <div class="arrow" id="nextBtn" onclick="moveSlide(1)">&#10230;</div>
+        </div>
+
+        <div class="dots">
+            <div class="dot active" onclick="setSlide(0)"></div>
+            <div class="dot" onclick="setSlide(1)"></div>
+            <div class="dot" onclick="setSlide(2)"></div>
+        </div>
+    </header>
+
+    <section id="o-partii" class="section-padding">
+        <div class="about-grid">
+            <div>
+                <span class="section-title">Nasz Program</span>
+                <h2 style="font-size: 2.5rem; color: var(--navy);">Budujemy nową przyszłość na solidnych fundamentach.</h2>
+            </div>
+            <div>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-gray);">Podniebna Partia to ruch ludzi czynu. Nasze podejście jest minimalistyczne w formie, ale maksymalistyczne w efektach. Skupiamy się na realnych reformach, ograniczeniu biurokracji i wzmocnieniu pozycji Podniebnego na arenie międzynarodowej. Dołącz do nas i twórz historię.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="ministrowie" class="section-padding ministers-section">
+        <span class="section-title">Rząd</span>
+        <h2 style="color: var(--navy);">Nasi Ministrowie</h2>
+        
+        <div class="ministers-grid">
+            <div class="minister-card">
+                <img src="https://images-ext-1.discordapp.net/external/OY3XrOmwJfBm1Xb_i4QDblUJvBjpiBNy9juyU8DftTc/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/797500849613963294/ec982030abdae2ec7ceb117c8fb837e7.png?format=webp&quality=lossless" alt="Julka">
+                <span class="m-name">Julka</span>
+                <span class="m-role">Minister ds. Rolnictwa</span>
+            </div>
+            <div class="minister-card">
+                <img src="https://images-ext-1.discordapp.net/external/4YeV3ZbRVIgLH3oFtHPviBsngYuEOxW5R_V5Stdr5ao/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/706860341908209714/bd1e7e0b54ca87777da177cc33ed825c.png?format=webp&quality=lossless" alt="Minister">
+                <span class="m-name">Kamil</span>
+                <span class="m-role">Minister Kultury i Dziedzictwa Narodowego</span>
+            </div>
+            <div class="minister-card">
+                <img src="https://images-ext-1.discordapp.net/external/p_OHpaC9T8JwFv3LJEdKWjYRXKC312qb6dQfCgpJIxA/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/1264899470357696522/fc8a9acf7769332aa46b1c67162750be.png?format=webp&quality=lossless" alt="Minister">
+                <span class="m-name">Andrzej Acartowski</span>
+                <span class="m-role">Minister Sprawiedliwości</span>
+            </div>
+            <div class="minister-card">
+                <img src="https://images-ext-1.discordapp.net/external/WkxSy0eR0CSlbdFEekZOoPhUuj1HCKhi0giTplZqmX0/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/1407992121335484550/0f9782343b482e2222df57ef1725c306.png?format=webp&quality=lossless" alt="Minister">
+                <span class="m-name">Tomasz Perła</span>
+                <span class="m-role">Minister Obrony</span>
+            </div>
+            <div class="minister-card">
+                <img src="https://images-ext-1.discordapp.net/external/g3EsP7OdQfx_XZVuRjFvtl65uJ49aUO9Mfx5QwOWiJk/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/839415943931363328/7218582cbf34bf7db06b1bf392291628.png?format=webp&quality=lossless" alt="Minister">
+                <span class="m-name">Bartek Naksowski</span>
+                <span class="m-role">Minister Skarbu</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontakt" class="section-padding" style="text-align: center;">
+        <span class="section-title">Skontaktuj się</span>
+        <h2 style="color: var(--navy); margin-bottom: 30px;">Zostań częścią Podniebnej Partii</h2>
+        <p style="color: var(--text-gray);">biuro@podniebnapartia.pl | Al. Ujazdowskie, Warszawa</p>
+    </section>
+
+    <footer>
+        <div>&copy; 2026 Podniebna Partia. Wszelkie prawa zastrzeżone.</div>
+        <div>Wolnosć i Patriotyzm</div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 3;
+        const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+            
+            // Ukrywanie strzałek
+            prevBtn.classList.toggle('disabled', currentSlide === 0);
+            nextBtn.classList.toggle('disabled', currentSlide === totalSlides - 1);
+        }
+
+        function moveSlide(dir) {
+            currentSlide += dir;
+            updateSlider();
+        }
+
+        function setSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        // Auto-przewijanie co 10 sekund
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }, 10000);
+    </script>
+</body>
+</html>
